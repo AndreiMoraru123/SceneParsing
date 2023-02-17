@@ -1,4 +1,4 @@
-# SemanticSegmentation
+# Semantic Segmentation
 
 ## U-Net - Instance segmentation for ego & alternative lanes on BDD100K
 
