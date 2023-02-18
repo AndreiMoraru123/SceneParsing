@@ -27,6 +27,8 @@ from ipywidgets import widgets
 
 # Convert to torch tensor and normalize images using Imagenet values
 preprocess = transforms.Compose([
+    # transforms.ToPILImage(),
+    # transforms.Resize((100, 100)),  # added for CUDA memory issues
     transforms.ToTensor(),
     transforms.Normalize(mean=(0.485, 0.56, 0.406), std=(0.229, 0.224, 0.225))
 ])
@@ -52,10 +54,10 @@ train_id_to_color = np.array(train_id_to_color)
 
 
 #####################################
-### ROI SELECT CLASS DEFINITION ##
+#   ROI SELECT CLASS DEFINITION    #
 #####################################
 
-class roi_select():
+class roi_select:
     def __init__(self, im, figsize=(12, 6), line_color=(255, 0, 0)):
         # class variables
         self.im = im
@@ -92,21 +94,20 @@ class roi_select():
 
     def get_bbox_indices(self, scale_factor=None):
         pts = np.array(self.selected_points)
-        if (scale_factor is not None):
+        if scale_factor is not None:
             pts = pts * scale_factor
 
         # bounding box coordinates as indices 
         # min_x, min_y is top left index
         # max_x, max_y is bottom right index
         roi_indices = pts.astype(int)
-        indices = {}
-        indices['min_x'], indices['min_y'] = np.min(roi_indices, axis=0)
-        indices['max_x'], indices['max_y'] = np.max(roi_indices, axis=0)
+        indices = {'min_x': (np.min(roi_indices, axis=0))[0], 'min_y': (np.min(roi_indices, axis=0))[1],
+                   'max_x': (np.max(roi_indices, axis=0))[0], 'max_y': (np.max(roi_indices, axis=0))[1]}
         return indices
 
 
 #####################################
-### TORCH DATASET CLASS DEFINITION ##
+#  TORCH DATASET CLASS DEFINITION   #
 #####################################
 
 
@@ -155,9 +156,9 @@ def get_datasets(images, labels):
 ###################################
 
 def get_dataloaders(train_set, val_set, test_set):
-    train_dataloader = DataLoader(train_set, batch_size=8, drop_last=True)
-    val_dataloader = DataLoader(val_set, batch_size=8)
-    test_dataloader = DataLoader(test_set, batch_size=8)
+    train_dataloader = DataLoader(train_set, batch_size=5, drop_last=True)
+    val_dataloader = DataLoader(val_set, batch_size=5)
+    test_dataloader = DataLoader(test_set, batch_size=5)
     return train_dataloader, val_dataloader, test_dataloader
 
 
@@ -210,14 +211,14 @@ class pspnet_loss(nn.Module):
     def __init__(self, num_classes, aux_weight):
         super(pspnet_loss, self).__init__()
         self.aux_weight = aux_weight
-        self.loss_fn = smp.losses.DiceLoss('multiclass',
-                                           classes=np.arange(num_classes).tolist(), log_loss=True, smooth=1.0)
+        self.loss_fn = smp.losses.DiceLoss('multiclass', classes=np.arange(num_classes).tolist(),
+                                           log_loss=True, smooth=1.0)
 
     def forward(self, preds, labels):
         # if input predictions is in dict format
         # calculate total loss as weighted sum of 
         # main and auxiliary losses
-        if (isinstance(preds, dict) == True):
+        if isinstance(preds, dict):
             main_loss = self.loss_fn(preds['main'], labels)
             aux_loss = self.loss_fn(preds['aux'], labels)
             loss = (1 - self.aux_weight) * main_loss + self.aux_weight * aux_loss
@@ -257,7 +258,7 @@ class polynomial_lr_decay(_LRScheduler):
             return [self.end_learning_rate for _ in self.base_lrs]
 
         return [(base_lr - self.end_learning_rate) *
-                ((1 - self.last_step / self.max_decay_steps) ** (self.power)) +
+                ((1 - self.last_step / self.max_decay_steps) ** self.power) +
                 self.end_learning_rate for base_lr in self.base_lrs]
 
     def step(self, step=None):
@@ -266,7 +267,7 @@ class polynomial_lr_decay(_LRScheduler):
         self.last_step = step if step != 0 else 1
         if self.last_step <= self.max_decay_steps:
             decay_lrs = [(base_lr - self.end_learning_rate) *
-                         ((1 - self.last_step / self.max_decay_steps) ** (self.power)) +
+                         ((1 - self.last_step / self.max_decay_steps) ** self.power) +
                          self.end_learning_rate for base_lr in self.base_lrs]
             for param_group, lr in zip(self.optimizer.param_groups, decay_lrs):
                 param_group['lr'] = lr
@@ -365,7 +366,10 @@ def train_validate_model(model, num_epochs, model_name, criterion, optimizer,
             model, dataloader_valid, criterion, metric_class, num_classes, device)
 
         print(
-            f'Epoch: {epoch + 1}, trainLoss:{train_loss:6.5f}, validationLoss:{validation_loss:6.5f}, {metric_name}:{validation_metric: 4.2f}')
+            f'Epoch: {epoch + 1}, trainLoss:{train_loss:6.5f},'
+            f' validationLoss:{validation_loss:6.5f},'
+            f' {metric_name}:{validation_metric: 4.2f}'
+        )
 
         # store results
         results.append({'epoch': epoch,
@@ -396,11 +400,12 @@ def visualize_predictions(model: torch.nn.Module, dataSet: Dataset,
     cityscapes dataset provided
 
     Args:
-        model (torch.nn.Module): model whose output we're to visualize
-        dataSet (Dataset): dataset to take samples from
-        device (torch.device): compute device as in GPU, CPU etc
-        numTestSamples (int): number of samples to plot
-        id_to_color (np.ndarray) : array to map class to colormap
+        :param model: model whose output we're to visualize
+        :param dataSet: dataset to take samples from
+        :param device: compute device as in GPU, CPU etc
+        :param numTestSamples: number of samples to plot
+        :param id_to_color: array to map class to colormap
+        :param axes: axes to plot on
     """
     model.to(device=device)
     model.eval()
@@ -445,16 +450,16 @@ def predict_video(model, model_name, input_video_path, output_dir,
 
     # handles for input output videos
     input_handle = cv2.VideoCapture(input_video_path)
-    output_handle = cv2.VideoWriter(output_video_path, cv2.VideoWriter_fourcc(*'DIVX'), \
+    output_handle = cv2.VideoWriter(output_video_path, cv2.VideoWriter_fourcc(*'DIVX'),
                                     30, (target_width, target_height))
 
     # create progress bar
     num_frames = int(input_handle.get(cv2.CAP_PROP_FRAME_COUNT))
     pbar = tqdm(total=num_frames, position=0, leave=True)
 
-    while (input_handle.isOpened()):
+    while input_handle.isOpened():
         ret, frame = input_handle.read()
-        if ret == True:
+        if ret:
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
             # create torch tensor to give as input to model
