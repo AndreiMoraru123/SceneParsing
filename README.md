@@ -1,6 +1,8 @@
 # Semantic Segmentation
 
-## U-Net - Instance segmentation for ego & alternative lanes on BDD100K
+## Instance segmentation for ego & alternative lanes on BDD100K
+
+### U-Net
 
 U-Net was designed for biomedical data of static images in controlled environments, so it will not be suitable for fast pace road driving scenarios, but it's interesting to watch as a tool for comparison with newer architectures.
 
