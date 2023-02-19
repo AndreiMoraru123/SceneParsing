@@ -18,8 +18,6 @@ Pyramid Scene Parsing is a module that allows the Neural Network to exploit glob
   <img src="https://user-images.githubusercontent.com/81184255/219856210-1dab9051-166d-45c8-9789-a9522aea2a47.gif" with = "200" height = "175" />
 </p>
 
-![PSP](https://gfycat.com/enchantingagonizingcuckoo)
-
 ### DeepLabV3+
 
 As an improvement upon its predecessor, DeepLabV3 handles segmentation at multiple scales making use of cascaded atrous (dilated) convolutions. DeepLabV3+ added a decoder as well, meant to refine the output result. 
@@ -27,4 +25,6 @@ As an improvement upon its predecessor, DeepLabV3 handles segmentation at multip
 <p align="center">
   <img src="https://user-images.githubusercontent.com/81184255/219937806-71ebe839-8c8e-470c-8b52-8ff87d069be8.gif" with = "200" height = "175" />
 </p>
+
+![DeepLabV3](https://thumbs.gfycat.com/DaringVengefulEyass-size_restricted.gif)
 
