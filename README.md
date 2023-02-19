@@ -25,8 +25,3 @@ As an improvement upon its predecessor, DeepLabV3 handles segmentation at multip
 <p align="center">
   <img src="https://user-images.githubusercontent.com/81184255/219937806-71ebe839-8c8e-470c-8b52-8ff87d069be8.gif" with = "200" height = "175" />
 </p>
-
-<p align="center">
-  <img src="https://thumbs.gfycat.com/EnchantingAgonizingCuckoo-size_restricted.gif" alt="PSP" width="700" height="200">
-</p>
-
