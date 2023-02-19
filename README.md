@@ -1,4 +1,4 @@
-# Semantic Segmentation
+# Segmentation Architectures
 
 ## Instance segmentation for ego & alternative lanes on BDD100K
 
