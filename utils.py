@@ -34,7 +34,7 @@ preprocess = transforms.Compose([
 ])
 
 # when using torch datasets we defined earlier, the output image
-# is normalized. So we're defining an inverse transformation to 
+# is normalized. So we're defining an inverse transformation to
 # transform to normal RGB format
 inverse_transform = transforms.Compose([
     transforms.Normalize((-0.485 / 0.229, -0.456 / 0.224, -0.406 / 0.225), (1 / 0.229, 1 / 0.224, 1 / 0.225))
@@ -76,7 +76,7 @@ class roi_select:
         disconnect_button.on_click(self.disconnect_mpl)
 
     def draw_roi_on_img(self, img, pts):
-        # plot polygon edges in single color 
+        # plot polygon edges in single color
         pts = np.array(pts, np.int32)
         pts = pts.reshape((-1, 2))
         # cv2.polylines(img, [pts], True, self.line_color, 5)
@@ -97,7 +97,7 @@ class roi_select:
         if scale_factor is not None:
             pts = pts * scale_factor
 
-        # bounding box coordinates as indices 
+        # bounding box coordinates as indices
         # min_x, min_y is top left index
         # max_x, max_y is bottom right index
         roi_indices = pts.astype(int)
@@ -156,9 +156,9 @@ def get_datasets(images, labels):
 ###################################
 
 def get_dataloaders(train_set, val_set, test_set):
-    train_dataloader = DataLoader(train_set, batch_size=5, drop_last=True)
-    val_dataloader = DataLoader(val_set, batch_size=5)
-    test_dataloader = DataLoader(test_set, batch_size=5)
+    train_dataloader = DataLoader(train_set, batch_size=1, drop_last=True)
+    val_dataloader = DataLoader(val_set, batch_size=1)
+    test_dataloader = DataLoader(test_set, batch_size=1)
     return train_dataloader, val_dataloader, test_dataloader
 
 
@@ -216,7 +216,7 @@ class pspnet_loss(nn.Module):
 
     def forward(self, preds, labels):
         # if input predictions is in dict format
-        # calculate total loss as weighted sum of 
+        # calculate total loss as weighted sum of
         # main and auxiliary losses
         if isinstance(preds, dict):
             main_loss = self.loss_fn(preds['main'], labels)
@@ -233,13 +233,13 @@ class pspnet_loss(nn.Module):
 
 class polynomial_lr_decay(_LRScheduler):
     """Polynomial learning rate decay until step reach to max_decay_step
-    
+
     Args:
         optimizer (Optimizer): Wrapped optimizer.
         max_decay_steps: after this step, we stop decreasing learning rate
         end_learning_rate: scheduler stoping learning rate decay, value of learning rate must be this value
         power: The power of the polynomial.
-    
+
     Reference:
         https://github.com/cmpark0126/pytorch-polynomial-lr-decay
     """
@@ -312,7 +312,7 @@ def evaluate_model(model, dataloader, criterion, metric_class, num_classes, devi
             loss = criterion(y_preds, labels)
             total_loss += loss.item()
 
-            # update batch metric information            
+            # update batch metric information
             metric_object.update(y_preds.cpu().detach(), labels.cpu().detach())
 
     evaluation_loss = total_loss / len(dataloader)
@@ -417,7 +417,7 @@ def visualize_predictions(model: torch.nn.Module, dataSet: Dataset,
     for i, sampleID in enumerate(testSamples):
         inputImage, gt = dataSet[sampleID]
 
-        # input rgb image   
+        # input rgb image
         inputImage = inputImage.to(device)
         landscape = inverse_transform(inputImage).permute(1, 2, 0).cpu().detach().numpy()
         axes[i, 0].imshow(landscape)
@@ -438,7 +438,7 @@ def visualize_predictions(model: torch.nn.Module, dataSet: Dataset,
 
 
 ###################################
-# FUNCTION TO VISUALIZE MODEL 
+# FUNCTION TO VISUALIZE MODEL
 # PREDICTIONS ON TEST VIDEO
 ###################################
 
