@@ -20,7 +20,6 @@ Pyramid Scene Parsing is a module that allows the Neural Network to exploit glob
   <img src="https://thumbs.gfycat.com/DisloyalUnlinedAnaconda-size_restricted.gif" alt="PSP" width="800" height="300">
 </p>
 
-
 ### DeepLabV3+
 
 As an improvement upon its predecessor, DeepLabV3 handles segmentation at multiple scales making use of cascaded atrous (dilated) convolutions. DeepLabV3+ added a decoder as well, meant to refine the output result. 
@@ -29,3 +28,10 @@ As an improvement upon its predecessor, DeepLabV3 handles segmentation at multip
   <img src="https://thumbs.gfycat.com/ApprehensiveVacantCockroach-size_restricted.gif" alt="DeepLabV3" width="800" height="300">
 </p>
 
+### SegFormer
+
+Using pretrained weights from ImageNet, the MIT B3 SegFormer outperforms convolutional architectures using efficient self attention on its overlapping embedded image patches
+
+<p align="center">
+  <img src="https://gfycat.com/ForkedEducatedDragon-size_restricted.gif" alt="DeepLabV3" width="800" height="300">
+</p>
