@@ -156,9 +156,9 @@ def get_datasets(images, labels):
 ###################################
 
 def get_dataloaders(train_set, val_set, test_set):
-    train_dataloader = DataLoader(train_set, batch_size=1, drop_last=True)
-    val_dataloader = DataLoader(val_set, batch_size=1)
-    test_dataloader = DataLoader(test_set, batch_size=1)
+    train_dataloader = DataLoader(train_set, batch_size=15, drop_last=True)
+    val_dataloader = DataLoader(val_set, batch_size=15)
+    test_dataloader = DataLoader(test_set, batch_size=15)
     return train_dataloader, val_dataloader, test_dataloader
 
 
