@@ -33,5 +33,5 @@ As an improvement upon its predecessor, DeepLabV3 handles segmentation at multip
 Using pretrained weights from ImageNet, the MIT B3 SegFormer outperforms convolutional architectures using efficient self attention on its overlapping embedded image patches
 
 <p align="center">
-  <img src="https://gfycat.com/ForkedEducatedDragon-size_restricted.gif" alt="DeepLabV3" width="800" height="300">
+  <img src="https://thumbs.gfycat.com/ForkedEducatedDragon-size_restricted.gif" alt="DeepLabV3" width="800" height="300">
 </p>
