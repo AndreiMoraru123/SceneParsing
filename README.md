@@ -30,7 +30,7 @@ As an improvement upon its predecessor, DeepLabV3 handles segmentation at multip
 
 ### SegFormer
 
-Using pretrained weights from ImageNet, the MIT B3 SegFormer outperforms convolutional architectures using efficient self attention on its overlapping embedded image patches and achieves current state of the art image segmentation.
+Using pretrained weights from ImageNet, the MIT B3 SegFormer outperforms convolutional architectures using efficient self attention on its overlapping embedded image patches and achieves state of the art image segmentation.
 
 <p align="center">
   <img src="https://thumbs.gfycat.com/GlamorousInfatuatedCats-size_restricted.gif" alt="SegFormer" width="800" height="300">
