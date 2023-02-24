@@ -35,7 +35,3 @@ Using pretrained weights from ImageNet, the MIT B3 SegFormer outperforms convolu
 <p align="center">
   <img src="https://thumbs.gfycat.com/GlamorousInfatuatedCats-size_restricted.gif" alt="SegFormer" width="800" height="300">
 </p>
-
-<p align="center">
-  <img src="https://thumbs.gfycat.com/FickleBountifulGelada-size_restricted.gif" alt="SegFormer" width="800" height="300">
-</p>
